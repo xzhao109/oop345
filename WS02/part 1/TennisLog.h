@@ -2,16 +2,21 @@
 #define SDDS_TENNISLOG_H
 #include <iostream>
 #include <string>
-// #include <string_view>
+using namespace std;
 
 namespace sdds {
 struct TennisMatch {
-    std::string m_tid{};
-    std::string m_name{};
+    string m_tid{};
+    string m_name{};
     int m_mid{};  // unsigned
-    std::string m_winner{};
-    std::string m_loser{};
+    string m_winner{};
+    string m_loser{};
 
+    // method
+    // TennisMatch(const string tid, const string name,
+    //                  const int mid, const string winner, const string loser);
+    TennisMatch& set(const string tid, const string name,
+                     const int mid, const string winner, const string loser);
     std::ostream& display(std::ostream& os) const;
 };
 std::ostream& operator<<(std::ostream& os, const TennisMatch& tm);
@@ -28,8 +33,8 @@ class TennisLog {
     void setEmpty();
     int recsCount(const char* filename);
 
-    void addMatch(const TennisLog* tl);  //
-    // const TennisLog& findMatches(const char* name);
+    void addMatch(const TennisMatch tm);  //
+    const TennisLog& findMatches(const char* name);
     TennisMatch operator[](size_t index) const;
     operator size_t();
 };

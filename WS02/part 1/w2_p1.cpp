@@ -2,40 +2,36 @@
 // w2_p1.cpp
 // Michael Huang
 
-#include <iostream>
 #include <iomanip>
+#include <iostream>
 #include <string>
-#include "TennisLog.h"
+
 #include "TennisLog.h"
 
-void printDivider(size_t cnt){
+void printDivider(size_t cnt) {
     for (auto i = 0u; i < cnt; ++i)
         std::cout << "*";
     std::cout << std::endl;
 }
 
-void printHeader(const char* head){
+void printHeader(const char* head) {
     std::cout << std::endl;
     printDivider(53);
     std::cout << head << std::endl;
     printDivider(53);
 }
 
-
 // ws tennis-data.csv
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv) {
     std::cout << "Command Line:\n";
     for (int i = 0; i < argc; i++)
         std::cout << i + 1 << ". " << argv[i] << std::endl;
 
-    if (argc != 2)
-    {
-        std::cerr << std::endl << "***Incorrect number of arguments***" << std::endl;
+    if (argc != 2) {
+        std::cerr << std::endl
+                  << "***Incorrect number of arguments***" << std::endl;
         return 1;
     }
-
-
 
     printHeader("Empty Tennis Log entries");
 
@@ -46,18 +42,14 @@ int main(int argc, char** argv)
     std::cout << tlog1[10000] << std::endl;
     std::cout << tlog1[size_t(tlog1) - 1] << std::endl;
 
-
-
     printHeader("Non Empty Tennis Log entries");
-    
+
     sdds::TennisLog tlog2(argv[1]);
 
     std::cout << tlog2[0] << std::endl;
     std::cout << tlog2[1000] << std::endl;
     std::cout << tlog2[10000] << std::endl;
     std::cout << tlog2[size_t(tlog2) - 1] << std::endl;
-
-
 
     printHeader("Add to Empty Tennis Log");
     // sdds::TennisMatch t1{"2022-120", "Wimbeldon", 12, "Player 1", "Player 2"};
