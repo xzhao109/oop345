@@ -8,8 +8,6 @@
 ///////////////////////////////////////////////////
 
 
-< /Reflection >
-
 1. The reason for the significant time difference between the copy and move operations.
 
     Copy Semantics:
