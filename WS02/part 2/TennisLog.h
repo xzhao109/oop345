@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////
-// WorkShop#2 :  Part1
+// WorkShop#2 :  Part2
 // Full Name  :  Xiaoyue Zhao
 // Student ID :  124899212
 // Email      :  xzhao109@myseneca.ca
@@ -30,6 +30,13 @@ class TennisLog {
     TennisLog();
     TennisLog(const char* filename);
     ~TennisLog();
+
+    // copy constructor and assignment
+    TennisLog(const TennisLog& tl);
+    TennisLog& operator=(const TennisLog& tl);
+    // move constructor and assignment
+    TennisLog(TennisLog&& tl) noexcept;
+    TennisLog& operator=(TennisLog&& tl) noexcept;
 
     void setEmpty();
     int recsCount(const char* filename);

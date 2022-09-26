@@ -1,0 +1,57 @@
+///////////////////////////////////////////////////
+// WorkShop#2 :  Part2
+// Full Name  :  Xiaoyue Zhao
+// Student ID :  124899212
+// Email      :  xzhao109@myseneca.ca
+// Section    :  ZEE
+// Date       :  Sep 25
+///////////////////////////////////////////////////
+
+
+< /Reflection >
+
+1. The reason for the significant time difference between the copy and move operations.
+
+    Copy Semantics:
+    We call the copy constructor once to copy construct resource to a temporary, 
+    and copy assignment once to copy the temporary into main(), 
+    we end up allocating and destroying separate objects in total.
+
+        delete[] m_match;
+        m_match = new TennisMatch[m_cnt + 1];
+        for (int i{0}; i <= m_cnt; i++) {
+            m_match[i] = tl.m_match[i];
+        }
+
+    Move Semantics:
+    The move constructor and move assignment is to move ownership of the resources from one object to another.
+    So instead of copying resource twice, we transfer it twice.
+
+        delete[] m_match;
+        m_match = tl.m_match;
+        tl.m_match = nullptr;
+
+
+2. Describe approach taken to read the input file (tennis-data.csv) 
+in the TennisLog constructor and populate the dynamic array. 
+Is there any way to avoid rereading the file?
+
+    Set the mode to append.
+    ofstream inf;
+    inf.open(filename, ofstream::app);
+
+    OR
+
+    File access with seekg() and seekp().
+    seekg() (changing the read position) and seekp() (changing the write position) operate independently。
+    We can skip directly to the record we wish to read and write.
+
+
+3. In the links above to chrono library, 
+you were directed to use a steady_clock to take a timestamp. 
+Do some research and explain the difference between a steady_clock and a system_clock. 
+Are they the same? When should each one be used?
+
+    sytem_clock is real-time clock. 
+    system_clock is the preferred clock to represent the real time.
+    steady_clock is the preferred clock to wait for a time duration or until a time point.

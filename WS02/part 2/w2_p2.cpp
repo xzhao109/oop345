@@ -2,25 +2,22 @@
 // w2_p1.cpp
 // Michael Huang
 
-
-#include <chrono> // For part 2 experiements
-
-#include <iostream>
-#include <iomanip>
-#include <string>
+#include <chrono>  // For part 2 experiements
 #include <cstring>
+#include <iomanip>
+#include <iostream>
+#include <string>
+
 #include "TennisLog.h"
-#include "TennisLog.h"
-#include "Timer.h"
 #include "Timer.h"
 
-void printDivider(size_t cnt){
+void printDivider(size_t cnt) {
     for (auto i = 0u; i < cnt; ++i)
         std::cout << "*";
     std::cout << std::endl;
 }
 
-void printHeader(const char* head){
+void printHeader(const char* head) {
     std::cout << std::endl;
     printDivider(53);
     std::cout << head << std::endl;
@@ -28,10 +25,9 @@ void printHeader(const char* head){
 }
 
 constexpr size_t MAX_OP = 7u;
-struct OperationTimes
-{
+struct OperationTimes {
     // stores the times of each supported operation
-    long long times[MAX_OP + 1]{}; // the last elem is invalid
+    long long times[MAX_OP + 1]{};  // the last elem is invalid
 
     // supported operations
     const char* operations[MAX_OP]{
@@ -41,21 +37,18 @@ struct OperationTimes
         "Copy Assignment Operator",
         "Move Constructor",
         "Move Assignment Operator",
-        "Destructor"
-    };
+        "Destructor"};
 
-    long long& operator[](const char* operation)
-    {
+    long long& operator[](const char* operation) {
         // assuming parameter is correct
         for (auto i = 0u; i < MAX_OP; ++i)
             if (std::strcmp(operations[i], operation) == 0)
                 return times[i];
 
-        return times[MAX_OP]; // unknown operation; return the invalid elem
+        return times[MAX_OP];  // unknown operation; return the invalid elem
     }
 };
-std::ostream& operator<<(std::ostream& out, const OperationTimes& ot)
-{
+std::ostream& operator<<(std::ostream& out, const OperationTimes& ot) {
     out << "\n\nStatistics\n"
            "-----------------------\n";
 
@@ -66,23 +59,20 @@ std::ostream& operator<<(std::ostream& out, const OperationTimes& ot)
     return out;
 }
 
-
 // ws tennis-data.csv
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv) {
     std::cout << "Command Line:\n";
-	for (int i = 0; i < argc; i++)
-		std::cout << i + 1 << ". " << argv[i] << std::endl;
+    for (int i = 0; i < argc; i++)
+        std::cout << i + 1 << ". " << argv[i] << std::endl;
 
-	if (argc != 2)
-	{
-		std::cerr << std::endl << "***Incorrect number of arguments***" << std::endl;
-		return 1;
+    if (argc != 2) {
+        std::cerr << std::endl
+                  << "***Incorrect number of arguments***" << std::endl;
+        return 1;
     }
 
     OperationTimes times;
     sdds::Timer timer;
-
 
     printHeader("Empty Tennis Log entries");
 
@@ -95,10 +85,8 @@ int main(int argc, char** argv)
     std::cout << tlog1[10000] << std::endl;
     std::cout << tlog1[size_t(tlog1) - 1] << std::endl;
 
-
-
     printHeader("Non Empty Tennis Log entries");
-    
+
     timer.start();
     sdds::TennisLog tlog2(argv[1]);
     times["Custom Constructor"] = timer.stop();
@@ -107,8 +95,6 @@ int main(int argc, char** argv)
     std::cout << tlog2[1000] << std::endl;
     std::cout << tlog2[10000] << std::endl;
     std::cout << tlog2[size_t(tlog2) - 1] << std::endl;
-
-
 
     printHeader("Add to Empty Tennis Log");
     sdds::TennisMatch t1{"2022-120", "Wimbeldon", 12, "Player 1", "Player 2"};
@@ -128,21 +114,18 @@ int main(int argc, char** argv)
     printHeader("Find specific player matches and display");
     sdds::TennisLog found = tlog2.findMatches("Wentworth Gore");
     std::cout << "Number of matches found: " << size_t(found) << std::endl;
-    std::cout << "First match found:\n" << found[0] << std::endl;
-    std::cout << "Last match found:\n" << found[size_t(found) - 1] << std::endl;
+    std::cout << "First match found:\n"
+              << found[0] << std::endl;
+    std::cout << "Last match found:\n"
+              << found[size_t(found) - 1] << std::endl;
 
     printHeader("Find an non existing player");
     sdds::TennisLog notfound = tlog2.findMatches("Tennis Playing Robot");
     std::cout << "Number of matches found: " << size_t(notfound) << std::endl;
 
-
-
-
-
     // Part 2
     {
         printHeader("Copy Construction");
-
 
         timer.start();
         sdds::TennisLog tlog = tlog2;
