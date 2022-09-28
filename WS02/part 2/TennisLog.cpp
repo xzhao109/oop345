@@ -62,7 +62,7 @@ TennisLog::TennisLog(const char* filename) {
 
     ifstream inf(filename);
     getline(inf, str, '\n');  // skip heading line
-    while (!inf.eof()) {
+    while (inf) {
         for (int i{0}; i <= m_cnt; i++) {
             getline(inf, m_match[i].m_tid, ',');
             getline(inf, m_match[i].m_name, ',');
