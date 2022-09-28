@@ -17,6 +17,24 @@
 using namespace std;
 
 namespace sdds {
+// is now a friend of TennisMatch
+std::ostream& operator<<(std::ostream& os, const TennisMatch& tm) {
+    if (tm.m_tid[0]) {
+        os << setw(20) << right << setfill('.') << "Tourney ID";
+        os << " : " << setw(30) << left << setfill('.') << tm.m_tid << "\n";
+        os << setw(20) << right << setfill('.') << "Match ID";
+        os << " : " << setw(30) << left << setfill('.') << tm.m_mid << "\n";
+        os << setw(20) << right << setfill('.') << "Tourney";
+        os << " : " << setw(30) << left << setfill('.') << tm.m_name << "\n";
+        os << setw(20) << right << setfill('.') << "Winner";
+        os << " : " << setw(30) << left << setfill('.') << tm.m_winner << "\n";
+        os << setw(20) << right << setfill('.') << "Loser";
+        os << " : " << setw(30) << left << setfill('.') << tm.m_loser << "\n";
+    } else {
+        os << "Empty Match";
+    }
+    return os;
+}
 void TennisLog::setEmpty() {
     m_match = nullptr;
     m_cnt = 0;
@@ -79,11 +97,8 @@ TennisLog& TennisLog::operator=(const TennisLog& tl) {
     return *this;
 }
 // move constructor
-TennisLog::TennisLog(TennisLog&& tl) noexcept : m_match(tl.m_match) {
-    m_match = tl.m_match;
-    tl.m_match = nullptr;
-    m_cnt = tl.m_cnt;
-    tl.m_cnt = 0;
+TennisLog::TennisLog(TennisLog&& tl) noexcept {
+    operator=(move(tl));
 }
 // move assignment
 TennisLog& TennisLog::operator=(TennisLog&& tl) noexcept {
@@ -127,23 +142,5 @@ TennisMatch TennisLog::operator[](size_t index) const {
 }
 TennisLog::operator size_t() const {
     return m_cnt;
-}
-// helper function
-std::ostream& operator<<(std::ostream& os, const TennisMatch& tm) {
-    if (tm.m_tid[0]) {
-        os << setw(20) << right << setfill('.') << "Tourney ID";
-        os << " : " << setw(30) << left << setfill('.') << tm.m_tid << "\n";
-        os << setw(20) << right << setfill('.') << "Match ID";
-        os << " : " << setw(30) << left << setfill('.') << tm.m_mid << "\n";
-        os << setw(20) << right << setfill('.') << "Tourney";
-        os << " : " << setw(30) << left << setfill('.') << tm.m_name << "\n";
-        os << setw(20) << right << setfill('.') << "Winner";
-        os << " : " << setw(30) << left << setfill('.') << tm.m_winner << "\n";
-        os << setw(20) << right << setfill('.') << "Loser";
-        os << " : " << setw(30) << left << setfill('.') << tm.m_loser << "\n";
-    } else {
-        os << "Empty Match";
-    }
-    return os;
 }
 }  // namespace sdds

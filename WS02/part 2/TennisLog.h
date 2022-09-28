@@ -20,6 +20,9 @@ struct TennisMatch {
     int m_mid{};
     string m_winner{};
     string m_loser{};
+
+    // make a friend of this class
+    friend std::ostream& operator<<(std::ostream& os, const TennisMatch& tm);
 };
 
 class TennisLog {
@@ -46,9 +49,6 @@ class TennisLog {
     TennisMatch operator[](size_t index) const;
     operator size_t() const;
 };
-
-// helper function
-std::ostream& operator<<(std::ostream& os, const TennisMatch& tm);
 }  // namespace sdds
 
 #endif
