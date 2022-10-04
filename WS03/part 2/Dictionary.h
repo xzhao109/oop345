@@ -23,8 +23,6 @@ class Dictionary {
     const std::string& getDefinition() const { return m_definition; }
     Dictionary(const std::string& term, const std::string& definition)
         : m_term{term}, m_definition{definition} {}
-
-    // part 2
     friend std::ostream& operator<<(std::ostream& os, const Dictionary& ro);
     friend bool operator==(const Dictionary& lo, const Dictionary& ro);
 };

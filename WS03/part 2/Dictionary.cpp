@@ -12,6 +12,7 @@
 
 #include <iomanip>
 #include <iostream>
+#include <string>
 
 namespace sdds {
 std::ostream& operator<<(std::ostream& os, const Dictionary& ro) {
@@ -21,12 +22,7 @@ std::ostream& operator<<(std::ostream& os, const Dictionary& ro) {
     return os;
 }
 
-// part 2
 bool operator==(const Dictionary& lo, const Dictionary& ro) {
-    bool cmp = false;
-    if (lo.getTerm() == ro.getTerm() && lo.getDefinition() == ro.getDefinition()) {
-        cmp = true;
-    }
-    return cmp;
+    return (lo.getTerm().compare(ro.getTerm()) == 0);
 }
 }  // namespace sdds

@@ -13,46 +13,42 @@
 #include <iostream>
 
 #include "Queue.h"
-#define VALUE 0.005
 
 namespace sdds {
 template <typename T>
-class UniqueQueue : public Queue<T, 100> {
+class UniqueQueue : public Queue<T, 100u> {
    public:
-    UniqueQueue() = default;
-    bool push(const T &item);
+    bool push(const T &item);  // override the inherited function
 };
 
 template <typename T>
 bool UniqueQueue<T>::push(const T &item) {
-    bool added = false;
-    bool cmp = true;
-    
-    for (int i{0}; i < Queue<T, 100>::size() && cmp; i++) {
-        if (Queue<T, 100>::operator[](i) == item) {
-            cmp = false;
+    bool isAdded{};  // default initialize to false
+    bool isUnique{true};
+    for (int i{0}; i < Queue<T, 100u>::size(); i++) {
+        if (Queue<T, 100u>::operator[](i) == item) {
+            isUnique = false;
         }
     }
-    if (cmp) {
-        added = Queue<T, 100>::push(item);
+    if (isUnique) {
+        isAdded = Queue<T, 100u>::push(item);
     }
-    return added;
+    return isAdded;
 }
 
-template <>
+template <>  // template specialization <double>
 bool UniqueQueue<double>::push(const double &item) {
-    bool added = false;
-    bool cmp = true;
-
-    for (int i{0}; i < size() && cmp; i++) {
-        if (std::fabs(this->operator[](i) - item) <= VALUE) {
-            cmp = false;
+    bool isAdded{};
+    bool isUnique{true};
+    for (int i{0}; i < Queue<double, 100u>::size(); i++) {
+        if (std::fabs(Queue<double, 100u>::operator[](i) - item) <= 0.005) {
+            isUnique = false;
         }
     }
-    if (cmp) {
-        added = Queue<double, 100>::push(item);
+    if (isUnique) {
+        isAdded = Queue<double, 100u>::push(item);
     }
-    return added;
+    return isAdded;
 }
 }  // namespace sdds
 

@@ -17,30 +17,46 @@ namespace sdds {
 template <typename T, int CAPACITY>
 class Queue {
     T m_array[CAPACITY]{};
+    static T m_object;
     int m_size{};
-    static T m_data;
 
    public:
     Queue() = default;
-    int size() const;
-    std::ostream& display(std::ostream& os = std::cout) const;
-    const T& operator[](int index) const;
-
-    // part 2
     virtual ~Queue() = default;
     virtual bool push(const T& item);
     T pop();
+    int size() const;
+    std::ostream& display(std::ostream& os = std::cout) const;
+    const T& operator[](int index) const;
 };
 
 template <typename T, int CAPACITY>
+T Queue<T, CAPACITY>::m_object{};  // be explicitly defined
+template <>  // specialize the class-member object
+Dictionary Queue<Dictionary, 100u>::m_object{"Empty Term", "Empty Substitute"};
+
+template <typename T, int CAPACITY>
+T Queue<T, CAPACITY>::pop() {
+    T item{};
+    item = m_array[0];
+    if (size() > 0) {
+        for (int i{0}; i < size(); i++) {
+            m_array[i] = m_array[i + 1];
+        }
+        m_size--;
+    }
+    return item;
+}
+
+template <typename T, int CAPACITY>
 bool Queue<T, CAPACITY>::push(const T& item) {
-    bool added = false;
+    bool isAdded{};  // default initialize to false
     if (size() < CAPACITY) {
         m_array[size()] = item;
-        added = true;
+        isAdded = true;
         m_size++;
     }
-    return added;
+    return isAdded;
 }
 
 template <typename T, int CAPACITY>
@@ -51,7 +67,7 @@ int Queue<T, CAPACITY>::size() const {
 template <typename T, int CAPACITY>
 const T& Queue<T, CAPACITY>::operator[](int index) const {
     if (index > size()) {
-        return m_data;
+        return m_object;
     }
     return m_array[index];
 }
@@ -66,31 +82,6 @@ std::ostream& Queue<T, CAPACITY>::display(std::ostream& os) const {
     }
     os << "----------------------\n";
     return os;
-}
-
-template <typename T, int CAPACITY>
-std::ostream& operator<<(std::ostream& os, const Queue<T, CAPACITY>& ro) {
-    return ro.display(os);
-}
-
-// part 2
-template <typename T, int CAPACITY>
-T Queue<T, CAPACITY>::m_data{};
-
-template <>
-Dictionary Queue<Dictionary, 100>::m_data{"Empty Term", "Empty Substitute"};
-
-template <typename T, int CAPACITY>
-T Queue<T, CAPACITY>::pop() {
-    T tmp{};
-    if (m_size > 0) {
-        tmp = m_array[0];
-        for (int i{0}; i < m_size; i++) {
-            m_array[i] = m_array[i + 1];
-        }
-        m_size--;
-    }
-    return tmp;
 }
 }  // namespace sdds
 

@@ -7,3 +7,61 @@
 // Date       :  Oct 2
 ///////////////////////////////////////////////////
 
+
+1. Explain in the reflection why we do not split this module into *.h and *.cpp 
+like you did in the previous workshops.
+
+    If we split this module into *.h and *.cpp, we will get a linker error.
+
+    In order for the compiler to use a template, it must see both the template definition 
+    (not just a declaration) and the template type used to instantiate the template. 
+    Also remember that C++ compiles files individually. 
+
+    =>  #include "Queue.h"
+
+    When the Queue.h header is #included in main, the template class definition is copied into main.cpp. 
+    When the compiler sees that we need three template instances, Queue<long>, and Queue<double>, and Queue<Dictionary>, 
+    it will instantiate these, and compile them as part of main.cpp. 
+
+    However, when it gets around to compiling Queue.cpp separately(if we have), 
+    it will have forgotten that we need an Queue<long> and Queue<double> and Queue<Dictionary>, 
+    so that template function is never instantiated. Thus, we get a linker error.
+
+    The easiest way is to simply put all of our template class code in the header file.
+    It's usually best to keep all of them in a header file, with the member function definitions underneath the class.
+
+
+
+2. In the reflection justify why it was necessary to add each 
+one of the members you have decided to add.
+
+    =>  Dictionary() = default;
+
+    The compiler needs to add a default constructor available.
+
+    =>  friend std::ostream& operator<<(std::ostream& os, const Dictionary& ro);
+        friend bool operator==(const Dictionary& lo, const Dictionary& ro);
+
+    A string-value pair is a special type pair.
+    In the Dictionary module, these two helper functions enable display and comparison of strings.
+
+
+
+3. the reason for specializing the push() member function.
+
+    =>  template <typename T>
+        bool UniqueQueue<T>::push(const T &item)
+
+    This function will have the same implementation details for each instanced type (just using different types).
+
+    =>  template <>
+        bool UniqueQueue<double>::push(const double &item)
+        =>  if (std::fabs(Queue<double, 100u>::operator[](i) - item) <= 0.005)
+
+    We use a function template specialization to create a specialized version of the push() function for type double.
+
+
+
+4. the reason for defining the class variable outside the class definition.
+
+    For full template specialization is that all template parameters must be explicitly defined.
