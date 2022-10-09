@@ -1,0 +1,46 @@
+///////////////////////////////////////////////////
+// WorkShop#4 :  Part2
+// Full Name  :  Xiaoyue Zhao
+// Student ID :  124899212
+// Email      :  xzhao109@myseneca.ca
+// Section    :  ZEE
+// Date       :  Oct 9
+///////////////////////////////////////////////////
+
+
+
+1. the difference between the implementations of a composition and an aggregation.
+
+    Both combinations and aggregations belong to a "has-a relationship". 
+    The biggest difference between them is that the composer has its existence managed by the object (class).
+ 
+    The Restaurant class has an array of pointers to objects for the Reservation class 
+    and uses it to manage the creation and destruction of reservation objects.
+    So the Reservation and Restaurant classes have composition relationship
+
+        Reservation* m_ptr{};  // dynamically allocated array of pointers to object
+
+        sdds::Restaurant res1(ppReservations, cnt);
+        Restaurant(const Reservation* reservations[], size_t cnt);
+        ~Restaurant();
+
+    Reservation and ConfirmationSender classes have an aggregation relationship. 
+    The ConfirmationSender class uses a pointer to a pointer to an array object, 
+    but is not directly involved in the creation and destruction of the Reservation class. 
+    It is implemented using address values.
+
+        const Reservation** m_pptr{};  // pointer to a pointer to an array object
+
+
+
+
+2. the difference between the implementations of move and copy functions in a composition and an aggregation.
+
+    In a composition relationship, the move and copy constructors will destroy the object. 
+            Reservation* m_ptr{};
+            delete[] m_ptr;
+
+    The copy and move constructors in the aggregation relationship do not destroy the object.
+    Only the address of the pointer of Reservation to be deleted.
+            const Reservation** m_pptr{}; 
+            delete[] m_pptr;
