@@ -1,0 +1,65 @@
+///////////////////////////////////////////////////
+// WorkShop#5 :  Part2
+// Full Name  :  Xiaoyue Zhao
+// Student ID :  124899212
+// Email      :  xzhao109@myseneca.ca
+// Section    :  ZEE
+// Date       :  Oct 16
+///////////////////////////////////////////////////
+
+
+
+1. the difference between the implementations/utilizations of a functor and a lambda expression. 
+When is appropriate to use each one?
+
+lambdas aren’t functions. They’re a special kind of object called a functor. 
+They’re actually objects that can be called like functions.
+
+Functors are objects that contain an overloaded operator() that make them callable like a function.
+
+Small functions that are not repeated. - use lambda expression
+    auto updateUS{[&](sdds::Book& book) { return book.price() *= usdToCadRate; }};
+
+If the function is repeated in multiple places or is larger than small. - use functors
+    void SpellChecker::operator()(std::string& text);
+
+
+
+
+
+2. the constructor for SpellChecker generates an exception in certain conditions. 
+How would you change your code to achieve the same result, but without exceptions
+ (both on the constructor and on the client side)? Compare the two solutions.
+
+One of the most common ways to handle potential errors is via return codes.
+    If the file couldn't be opened => return code indicating file couldn't be read
+
+        if (!file)
+        return ERROR_OPENING_FILE; (return code to caller)
+
+For second solution:
+- Return codes do not mix with constructors very well.
+- When an error code is returned to the caller, the caller may not always be equipped to handle the error.
+
+
+
+
+
+3. the classes Movie and Book contain almost identical logic in loading data from the file. 
+How would you redesign the classes in order not to duplicate that logic?
+
+    It may be possible to create a new module as a helper module to load data from files.
+
+
+
+
+
+4. the classes Movie and Book are instantiated from the main() function using a custom constructor, 
+but they also contain a default constructor. Is the default constructor necessary? Could you remove it? Justify your answer.
+
+    It is necessary to use the default constructor. 
+    The newly created object cannot be instantiated if no default constructor exists.
+
+        Movie movies[5];
+        library += book；
+        ((theCollection += movies[0]) += movies[1]) += movies[2];
