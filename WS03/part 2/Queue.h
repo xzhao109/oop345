@@ -32,7 +32,7 @@ class Queue {
 
 template <typename T, int CAPACITY>
 T Queue<T, CAPACITY>::m_object{};  // be explicitly defined
-template <>  // specialize the class-member object
+template <>  // specialize the class-member variable
 Dictionary Queue<Dictionary, 100u>::m_object{"Empty Term", "Empty Substitute"};
 
 template <typename T, int CAPACITY>
