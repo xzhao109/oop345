@@ -1,0 +1,67 @@
+///////////////////////////////////////////////////
+// WorkShop#6 :  Part 2
+// Full Name  :  Xiaoyue Zhao
+// Student ID :  124899212
+// Email      :  xzhao109@myseneca.ca
+// Section    :  ZEE
+// Date       :  Nov 6
+///////////////////////////////////////////////////
+
+
+1. Why do you need to deallocate the dynamically allocated memory in your vector?
+
+    We can't create an object of an base class. 
+
+    class Vehicle {
+    public:
+        virtual double topSpeed() const = 0;
+        virtual void display(std::ostream&) const = 0;
+        virtual std::string condition() const = 0;
+        virtual ~Vehicle(){};
+    };
+
+    We must use pointers to base class to create an object dynamically.
+    std::vector<Vehicle*> m_vehicles;
+
+
+
+2. When building an object from the input file, different things can go wrong: 
+the record represents an unknown type of vehicle, 
+or record contains invalid data. How can the function loadData() detect what went wrong? 
+Can you think at another solution than the one you have implemented?
+
+    One of the most common ways to handle potential errors is via return codes.
+    If we detect an unknown type of vehicle or invalid data from records, 
+    we can retrn a specific code to the caller.
+
+    For example:
+
+        const char DATE_ERROR[3][10] = {
+        "No Error",
+        "File open Failed",
+        "Bad type Value"};
+
+        if (!file)
+        return DATE_ERROR[1];
+
+        if (type == 'c' || type == 'C')
+            return new Car(os);
+        else if (type == 'v' || type == 'V')
+            return new Van(os);
+        else if (type == 'r' || type == 'R')
+            return new Racecar(os);
+        else if (type == 'l' || type == 'L')
+            return new Luxuryvan(os);
+        else
+            return DATE_ERROR[2];
+    
+
+
+3. In this workshop you had to use std::list<sdds::Vehicle*> and std::vector<sdds::Vehicle*> 
+to store a collection of vehicles as pointers. 
+Could you have used std::list<sdds::Vehicle> and std::vector<sdds::Vehicle> instead? 
+Justify your answer!
+
+    The Vehicle class is an abstract class. Instance objects cannot be created. 
+    std::vector<sdds::Vehicle*> can create instance objects of derived classes inherited from Vehicle class, 
+    and then store them in vector container as pointers.
