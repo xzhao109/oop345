@@ -1,0 +1,70 @@
+///////////////////////////////////////////////////
+// WorkShop#7 :  Part2
+// Full Name  :  Xiaoyue Zhao
+// Student ID :  124899212
+// Email      :  xzhao109@myseneca.ca
+// Section    :  ZEE
+// Date       :  Nov 13
+///////////////////////////////////////////////////
+
+1. list all the STL functions that you have used in this workshop; 
+explain your reasoning for choosing each one, and not another.
+
+    for_each:
+    With std::for_each, we can apply a custom function to every element of a list. 
+    When we want to perform the same operation on every element in a list, this is useful.
+    For example, we want to display every element in Crime list.
+
+    void CrimeStatistics::display(std::ostream& out) const {
+        auto printline{[&](const Crime& theCrime) { out << theCrime << '\n'; }};
+        std::for_each(m_crimes.begin(), m_crimes.end(), printline);
+    }
+
+    none_of:
+    A list contains no matching elements.
+    If at least one matching element is found, it will return true in this example.
+    std::any_of is an alternative to std::none_of. 
+
+    bool CrimeStatistics::inCollection(const std::string crime) const {
+        auto find{[crime](const Crime& theCrime) { return theCrime.m_crime == crime; }};
+        return !std::none_of(m_crimes.begin(), m_crimes.end(), find);
+    }
+
+    copy_if:
+    std::copy_if() is used to copy certain elements
+     (which satisfy theCrime.m_province == province) of a container from the start to the end.
+
+    std::list<Crime> CrimeStatistics::getListForProvince(const std::string province) const {
+        std::list<Crime> crime;
+        auto copy{[province](const Crime& theCrime) { return theCrime.m_province == province; }};
+        std::copy_if(m_crimes.begin(), m_crimes.end(), back_inserter(crime), copy);
+        return crime;
+    }
+
+
+
+2. present the advantages of using STL algorithms 
+vs. implementing the functionality by yourself using loops.
+
+    advantages of using STL algorithms:
+    Like searching, counting, and sorting, these standard library functions come pre-tested, 
+    are efficient, work on a variety of different container types, and many support parallelization.
+
+    advantages of implementing the functionality:
+    An explicit loop has better readability, maintainability.
+    By the time we define manual loops, a 10-line loop might turn into 2 lines of code.
+
+
+3. the function that sorts the collection of crimes receives as a parameter the field name to use; 
+this can create errors if the client specifies an invalid field (or misspells it).
+How would you redesign that function to prevent the client to specify an invalid string, 
+allowing any error to be detected by the compiler?
+
+Uses throw, try, and catch blocks.
+
+try {
+    if (!inf)
+        throw "The filename is incorrect"; // throw exception
+} catch (catch const char* error) { // catch exception
+    std::cerr << error << '\n'; 
+}
