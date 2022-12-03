@@ -1,0 +1,51 @@
+///////////////////////////////////////////////////
+// Milestone  :  3
+// Full Name  :  Xiaoyue Zhao
+// Student ID :  124899212
+// Email      :  xzhao109@myseneca.ca
+// Section    :  ZEE
+// Date       :  Dec 3
+///////////////////////////////////////////////////
+
+Milestones 1 and 2 are moderately difficult for me, but Milestone 3 is very challenging. 
+In milestone 3, the project logic becomes more complex due to the addition of more modules. 
+While debugging the code, I was not fully aware of its logic, resulting in a lot of wasted time.
+
+In milestone 3, I encountered many problems, but the fillItem() function impressed me most. 
+As I always wanted to implement the SLT algorithm to solve the problem, 
+but the output result was either multi-line printing or infinite printing, 
+it is impossible to compile a result that matchs the output. 
+
+    void CustomerOrder::fillItem(Station& station, std::ostream& os) {
+        std::for_each(m_lstItem, m_lstItem + m_cntItem, [&](Item* item) {
+            if (item->m_itemName == station.getItemName()) {
+                if (station.getQuantity()) {
+                    station.updateQuantity();
+                    item->m_serialNumber = station.getNextSerialNumber();
+                    item->m_isFilled = true;
+                    os << "    Filled " << ... ;
+                } else {
+                    os << "    Unable to fill " << ... ;
+                }
+            }
+        });
+    }
+
+My final solution came after carefully observing the logic of the code, 
+and after continuous debugging (I used std::cout to print the value to observe), I succeeded.
+
+    void CustomerOrder::fillItem(Station& station, std::ostream& os) {
+        for (size_t i{0u}; i < m_cntItem; i++) {
+            if (m_lstItem[i]->m_itemName == station.getItemName() && m_lstItem[i]->m_isFilled == false) {
+                if (station.getQuantity()) {
+                    station.updateQuantity();
+                    m_lstItem[i]->m_serialNumber = station.getNextSerialNumber();
+                    m_lstItem[i]->m_isFilled = true;
+                    os << "    Filled " << ... ;
+                    break;
+                } else {
+                    os << "    Unable to fill " << ... ;
+                }
+            }
+        }
+    }
