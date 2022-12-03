@@ -1,0 +1,55 @@
+///////////////////////////////////////////////////
+// WorkShop#8 :  Part2
+// Full Name  :  Xiaoyue Zhao
+// Student ID :  124899212
+// Email      :  xzhao109@myseneca.ca
+// Section    :  ZEE
+// Date       :  Nov 20
+///////////////////////////////////////////////////
+
+
+1. the advantage that smart pointer syntax provides. Use example from your code to support your explanation.
+
+    We forgot to release ptr, or the function exited early (for example, an exception was encountered in this workshop), 
+    early return or throw statement execute, causing the function to terminate without variable ptr being deleted. 
+    Consequently, the memory allocated for variable ptr is now leaked。
+
+        void rangeValidator() const {
+        if (m_salary < 0.0 || m_salary > 99999.0)
+            throw std::string("*** Employees salaray range is not valid");
+        }
+
+    Smart pointers is designed to manage dynamically allocated memory 
+    and ensure that memory gets deleted when the smart pointer object goes out of scope. 
+
+
+2. the difference between raw and smart pointer syntax in your solution.
+
+    Raw pointer variables have no inherent mechanism to clean up after themselves.
+    We have to delete it manually to avoid memory leaks.
+
+        // using raw pointers
+         EmployeeWage* Emp{new EmployeeWage(emp[i].name, sal[j].salary)};
+        try {
+            Emp->rangeValidator();
+            if (activeEmp.sinValidator(emp[i].id))
+                activeEmp += Emp;
+        } catch (...) {
+            delete Emp;
+            throw;  // continue throwing
+        }
+        delete Emp;
+        
+
+    In the case where the salary is out of range, the program terminates early, 
+    the object is still properly deallocated.
+
+        // using smart pointers
+        unique_ptr<EmployeeWage> Emp{new EmployeeWage(emp[i].name, sal[j].salary)};
+        try {
+            Emp->rangeValidator();
+            if (activeEmp.sinValidator(emp[i].id))
+                activeEmp += Emp;
+        } catch (...) {
+            throw;  // continue throwing
+        }

@@ -1,0 +1,1 @@
+throw std::string("*** Employees salaray range is not valid");
